@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Detalhes da Matéria</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+  <style>
+    .mdl-card {
+      margin: 20px auto;
+      min-width: 100%;
+    }
+  </style>
+</head>
+<body>
+<div class="mdl-layout mdl-js-layout mdl-layout__container">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <span class="mdl-layout-title">Detalhes da Matéria</span>
+      <div class="mdl-layout-spacer"></div>
+      <nav class="mdl-navigation">
+        <a th:href="@{/materias/gerenciar}" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+          Voltar para Lista de Matérias
+        </a>
+      </nav>
+    </div>
+  </header>
+  <main class="mdl-layout__content">
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--middle mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+        <div class="mdl-card mdl-shadow--2dp">
+          <div class="mdl-card__title">
+            <h2 class="mdl-card__title-text">Detalhes da Matéria</h2>
+          </div>
+          <div class="mdl-card__supporting-text">
+            <p><strong>ID:</strong> <span th:text="${materia.id}"></span></p>
+            <p><strong>Nome:</strong> <span th:text="${materia.nome}"></span></p>
+            <p><strong>Descrição:</strong> <span th:text="${materia.descricao}"></span></p>
+            <p><strong>Professor:</strong> <span th:text="${materia.professor != null ? materia.professor.nome : 'Não definido'}"></span></p>
+          </div>
+          <div class="mdl-card__actions mdl-card--border">
+            <h3>Alunos Matriculados</h3>
+            <ul class="mdl-list">
+              <li class="mdl-list__item" th:each="aluno : ${materia.getLista_alunos()}">
+                <span class="mdl-list__item-primary-content" th:text="${aluno.nome}"></span>
+              </li>
+            </ul>
+          </div>
+          <div class="mdl-card__actions mdl-card--border">
+            <h3>Adicionar Aluno</h3>
+            <form action="/materias/detalhes/adicionar-aluno" method="post">
+              <input type="hidden" name="id" th:value="${materia.id}">
+              <div class="mdl-textfield mdl-js-textfield">
+                <select id="alunoId" name="alunoId" class="mdl-textfield__input" required>
+                  <option th:each="aluno : ${alunosDisponiveis}" th:value="${aluno.id}" th:text="${aluno.nome}"></option>
+                </select>
+                <label class="mdl-textfield__label" for="alunoId">Selecione um Aluno</label>
+              </div>
+              <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                Adicionar Aluno
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+</body>
+</html>

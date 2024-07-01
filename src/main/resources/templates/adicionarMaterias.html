@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Adicionar Matéria</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <style>
+        .mdl-layout {
+            align-items: center;
+            justify-content: center;
+        }
+        .mdl-card {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .mdl-textfield {
+            width: 100%;
+        }
+        .mdl-card__actions {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <div class="mdl-card mdl-shadow--2dp">
+        <div class="mdl-card__title">
+            <h2 class="mdl-card__title-text">Adicionar Matéria</h2>
+        </div>
+        <div class="mdl-card__supporting-text">
+            <form action="/materias/adicionar" method="post" th:object="${materia}">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" id="nome" th:field="*{nome}" required>
+                    <label class="mdl-textfield__label" for="nome">Nome</label>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <textarea class="mdl-textfield__input" id="descricao" rows="3" th:field="*{descricao}" required></textarea>
+                    <label class="mdl-textfield__label" for="descricao">Descrição</label>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <select class="mdl-textfield__input" id="professor" name="professorId" required>
+                        <option value="">Selecione um professor...</option>
+                        <option th:each="professor : ${professores}" th:value="${professor.id}" th:text="${professor.nome}"></option>
+                    </select>
+                    <label class="mdl-textfield__label" for="professor">Professor</label>
+                </div>
+                <!--<div class="mdl-textfield mdl-js-textfield mdl-textfield&#45;&#45;floating-label">
+                    <select class="mdl-textfield__input" id="lista_alunos" multiple th:field="*{listaAlunos}" required>
+                        <option th:each="aluno : ${alunos}" th:value="${aluno}" th:text="${aluno.nome}"></option>
+                    </select>
+                    <label class="mdl-textfield__label" for="lista_alunos">Alunos</label>
+                </div>-->
+                <div class="mdl-card__actions mdl-card--border">
+                    <button type="submit" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Adicionar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

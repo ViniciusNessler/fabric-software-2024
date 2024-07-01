@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Listar Matérias</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+</head>
+<body>
+<div class="mdl-layout mdl-js-layout">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <span class="mdl-layout-title">Listagem de Matérias</span>
+      <div class="mdl-layout-spacer"></div>
+      <nav class="mdl-navigation">
+        <a th:href="@{/home}" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+          Voltar para Home
+        </a>
+        <a th:href="@{/materias/adicionar}" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+          Adicionar Nova Matéria
+        </a>
+      </nav>
+    </div>
+  </header>
+  <main class="mdl-layout__content">
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--12-col">
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+          <thead>
+          <tr>
+            <th class="mdl-data-table__cell--non-numeric">Nome</th>
+            <th class="mdl-data-table__cell--non-numeric">Professor</th>
+            <th class="mdl-data-table__cell--non-numeric">Ações</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="materia : ${materias}">
+            <td class="mdl-data-table__cell--non-numeric" th:text="${materia.nome}"></td>
+            <td class="mdl-data-table__cell--non-numeric" th:text="${materia.professor != null ? materia.professor.nome : 'Não definido'}"></td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <a th:href="@{/materias/detalhes/{id}(id=${materia.id})}" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                Detalhes
+              </a>
+            </td>
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+</body>
+</html>

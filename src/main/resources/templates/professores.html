@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciar Professores</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <style>
+        .mdl-layout {
+            align-items: center;
+            justify-content: center;
+        }
+        .mdl-card {
+            width: 90%;
+            max-width: 1000px;
+            margin: 20px auto;
+        }
+        .mdl-data-table {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <div class="mdl-card mdl-shadow--2dp">
+        <div class="mdl-card__title">
+            <h2 class="mdl-card__title-text">Lista de Professores</h2>
+        </div>
+        <div class="mdl-card__actions">
+            <a href="/professores/adicionar" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                Adicionar Novo Professor
+            </a>
+        </div>
+        <div class="mdl-card__supporting-text">
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                <thead>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric">ID</th>
+                    <th class="mdl-data-table__cell--non-numeric">Nome</th>
+                    <th class="mdl-data-table__cell--non-numeric">Email</th>
+                    <th class="mdl-data-table__cell--non-numeric">Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="professor : ${professores}">
+                    <td class="mdl-data-table__cell--non-numeric" th:text="${professor.id}"></td>
+                    <td class="mdl-data-table__cell--non-numeric" th:text="${professor.nome}"></td>
+                    <td class="mdl-data-table__cell--non-numeric" th:text="${professor.email}"></td>
+                    <td class="mdl-data-table__cell--non-numeric">
+                        <a th:href="@{/professores/editar/{id}(id=${professor.id})}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                            <i class="material-icons">edit</i>
+                        </a>
+                        <a th:href="@{/professores/remover/{id}(id=${professor.id})}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" onclick="return confirm('Tem certeza que deseja remover este professor?');">
+                            <i class="material-icons">delete</i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="mdl-card__actions">
+            <a href="/home" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Voltar para Home</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

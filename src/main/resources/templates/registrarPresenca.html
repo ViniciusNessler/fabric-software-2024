@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Registrar Presença</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    .mdl-layout {
+      align-items: center;
+      justify-content: center;
+    }
+    .mdl-card {
+      width: 90%;
+      max-width: 600px;
+      margin: 20px auto;
+    }
+    .mdl-textfield {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <div class="mdl-card mdl-shadow--2dp">
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">Registrar Presença</h2>
+    </div>
+    <div class="mdl-card__supporting-text">
+      <form th:action="@{/presencas/registrar}" method="post">
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <select class="mdl-textfield__input" id="aluno" name="alunoId" required>
+            <option th:each="aluno : ${alunos}" th:value="${aluno.id}" th:text="${aluno.nome}" th:selected="${aluno.id == selectedAluno?.id}"></option>
+          </select>
+          <label class="mdl-textfield__label" for="aluno">Aluno:</label>
+        </div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <select class="mdl-textfield__input" id="materia" name="materiaId" required>
+            <option th:each="materia : ${materias}" th:value="${materia.id}" th:text="${materia.nome}"></option>
+          </select>
+          <label class="mdl-textfield__label" for="materia">Matéria:</label>
+        </div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <input class="mdl-textfield__input" type="date" id="data" name="data" required>
+          <label class="mdl-textfield__label" for="data">Data:</label>
+        </div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="presente">
+            <input type="checkbox" id="presente" name="presente" class="mdl-switch__input">
+            <span class="mdl-switch__label">Presente</span>
+          </label>
+        </div>
+        <div class="mdl-card__actions mdl-card--border">
+          <button type="submit" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Registrar</button>
+          <a th:href="@{/home}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" style="margin-left: 10px;">Voltar para Home</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('#aluno').change(function() {
+      var alunoId = $(this).val();
+      if (alunoId) {
+        $.ajax({
+          url: '/presencas/materiasPorAluno',
+          type: 'GET',
+          data: { alunoId: alunoId },
+          success: function(materias) {
+            var materiaSelect = $('#materia');
+            materiaSelect.empty();
+            $.each(materias, function(index, materia) {
+              materiaSelect.append($('<option>', {
+                value: materia.id,
+                text: materia.nome
+              }));
+            });
+          }
+        });
+      } else {
+        $('#materia').empty();
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

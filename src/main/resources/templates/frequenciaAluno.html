@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Frequência dos Alunos</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <style>
+        .mdl-layout {
+            align-items: center;
+            justify-content: center;
+        }
+        .mdl-card {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        .mdl-textfield {
+            width: 100%;
+        }
+        .mdl-card__supporting-text {
+            overflow-y: auto;
+            max-height: 500px; /* Ajuste conforme necessário */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <div class="mdl-card mdl-shadow--2dp">
+        <div class="mdl-card__title">
+            <h2 class="mdl-card__title-text">Frequência dos Alunos</h2>
+        </div>
+        <div class="mdl-card__supporting-text">
+            <div th:each="entry : ${frequenciaPorMateria}">
+                <h3 th:text="${entry.key.nome}">Matéria</h3>
+                <table class="mdl-data-table mdl-js-data-table">
+                    <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Aluno</th>
+                        <th class="mdl-data-table__cell--non-numeric">Faltas</th>
+                        <th class="mdl-data-table__cell--non-numeric">Frequência (%)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="alunoFrequencia : ${entry.value}">
+                        <td class="mdl-data-table__cell--non-numeric" th:text="${alunoFrequencia.aluno.nome}">Aluno</td>
+                        <td class="mdl-data-table__cell--non-numeric" th:text="${alunoFrequencia.faltas}">Faltas</td>
+                        <td class="mdl-data-table__cell--non-numeric" th:text="${#numbers.formatDecimal(alunoFrequencia.frequencia, 0,'COMMA',2,'POINT')}">Frequência</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="mdl-card__actions mdl-card--border">
+            <a th:href="@{/home}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Voltar para Home</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
